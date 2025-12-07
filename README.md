@@ -1,4 +1,4 @@
-# EcommerceAI-Pro 🚀
+# Ecommerce-Pro 🚀
 
 EcommerceAI-Pro es una plataforma de comercio electrónico de última generación impulsada por Inteligencia Artificial. Combina una arquitectura moderna de microservicios con características avanzadas como autenticación biométrica, asistentes de compras con IA y automatización de flujos de trabajo.
 
