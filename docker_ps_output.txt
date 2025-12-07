@@ -1,0 +1,7 @@
+CONTAINER ID   IMAGE                        COMMAND                  CREATED          STATUS                          PORTS                                             NAMES
+a48d4ca32a37   ecommerceai-pro-ai-service   "uvicorn main:app --…"   26 minutes ago   Restarting (1) 46 seconds ago                                                     ecommerceai-pro-ai-service-1
+18ae9dc764af   ecommerceai-pro-frontend     "docker-entrypoint.s…"   4 hours ago      Up About an hour                0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp       ecommerceai-pro-frontend-1
+86035a73ed67   ecommerceai-pro-backend      "java -jar app.jar"      4 hours ago      Up About an hour                0.0.0.0:8080->8080/tcp, [::]:8080->8080/tcp       ecommerceai-pro-backend-1
+afb02128ad08   ollama/ollama:latest         "/bin/ollama serve"      5 hours ago      Up About an hour                0.0.0.0:11435->11434/tcp, [::]:11435->11434/tcp   ollama
+94e60669f82d   n8nio/n8n                    "tini -- /docker-ent…"   6 hours ago      Up 1 second                     0.0.0.0:5678->5678/tcp, [::]:5678->5678/tcp       ecommerceai-pro-n8n-1
+60a744abc3c2   postgres:16-alpine           "docker-entrypoint.s…"   6 hours ago      Up About an hour                0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp       ecommerceai-pro-db-1

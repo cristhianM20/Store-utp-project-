@@ -1,0 +1,7 @@
+NAME                           IMAGE                        COMMAND                  SERVICE      CREATED          STATUS                          PORTS
+ecommerceai-pro-ai-service-1   ecommerceai-pro-ai-service   "uvicorn main:app --…"   ai-service   25 seconds ago   Up 2 seconds                    0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp
+ecommerceai-pro-backend-1      ecommerceai-pro-backend      "java -jar app.jar"      backend      3 hours ago      Up 31 minutes                   0.0.0.0:8080->8080/tcp, [::]:8080->8080/tcp
+ecommerceai-pro-db-1           postgres:16-alpine           "docker-entrypoint.s…"   db           6 hours ago      Up 31 minutes                   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+ecommerceai-pro-frontend-1     ecommerceai-pro-frontend     "docker-entrypoint.s…"   frontend     3 hours ago      Up 31 minutes                   0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp
+ecommerceai-pro-n8n-1          n8nio/n8n                    "tini -- /docker-ent…"   n8n          6 hours ago      Restarting (1) 19 seconds ago   
+ollama                         ollama/ollama:latest         "/bin/ollama serve"      ollama       5 hours ago      Up 31 minutes                   0.0.0.0:11435->11434/tcp, [::]:11435->11434/tcp

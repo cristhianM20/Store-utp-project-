@@ -1,0 +1,13 @@
+drwxrwxrwx. 1 cristhianM cristhianM 242 dic  1 20:23 n8n-data
+total 628
+drwxrwxrwx. 1 cristhianM cristhianM      0 nov 29 23:42 binaryData
+-rwxrwxrwx. 1 cristhianM cristhianM     56 nov 29 23:41 config
+-rwxrwxrwx. 1 cristhianM cristhianM      0 dic  1 20:23 crash.journal
+-rwxrwxrwx. 1 cristhianM cristhianM 638976 nov 30 09:34 database.sqlite
+drwxrwxrwx. 1 cristhianM cristhianM      0 nov 29 23:42 git
+-rwxrwxrwx. 1 cristhianM cristhianM      0 dic  1 16:41 n8nEventLog-1.log
+-rwxrwxrwx. 1 cristhianM cristhianM      0 dic  1 12:26 n8nEventLog-2.log
+-rwxrwxrwx. 1 cristhianM cristhianM      0 nov 30 23:02 n8nEventLog-3.log
+-rwxrwxrwx. 1 cristhianM cristhianM      0 dic  1 20:23 n8nEventLog.log
+drwxrwxrwx. 1 cristhianM cristhianM     24 nov 29 23:42 nodes
+drwxrwxrwx. 1 cristhianM cristhianM      0 nov 29 23:42 ssh

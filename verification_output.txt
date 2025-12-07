@@ -1,0 +1,55 @@
+=========================================
+  EcommerceAI-Pro - Verificación de Sistema
+=========================================
+
+1. Verificando Contenedores Docker...
+--------------------------------------
+[0;32m✓[0m PostgreSQL está corriendo
+  [1;33m⚠[0m Puerto 5432 no responde (puede estar iniciando)
+[0;32m✓[0m Backend (Spring Boot) está corriendo
+  [0;32m✓[0m Puerto 8080 responde
+[0;32m✓[0m Frontend (Next.js) está corriendo
+  [0;32m✓[0m Puerto 3000 responde
+[0;31m✗[0m AI Service (FastAPI) NO está corriendo
+[0;32m✓[0m Ollama (LLM) está corriendo
+  [0;32m✓[0m Puerto 11435 responde
+[0;31m✗[0m n8n (Automatización) NO está corriendo
+
+2. Verificando Modelos de Ollama...
+--------------------------------------
+[0;32m✓[0m Modelo Qwen está instalado
+qwen2.5:7b    845dbda0ea48    4.7 GB    5 hours ago    
+
+3. Verificando Conectividad...
+--------------------------------------
+[0;32m✓[0m Backend API responde
+[1;33m⚠[0m AI Service no responde
+[0;32m✓[0m Ollama API responde
+
+4. Estado de n8n...
+--------------------------------------
+[0;31m✗[0m n8n tiene problemas (reiniciando constantemente)
+  Ver solución en: N8N_MANUAL.md
+  Comando rápido: sudo chown -R 1000:1000 ./n8n-data
+
+5. Recursos del Sistema...
+--------------------------------------
+Espacio en disco:
+  Disponible: 425G de 475G
+
+Uso de Docker:
+Images          25        5         16.54GB   11.41GB (68%)
+Containers      5         5         32.83kB   0B (0%)
+Local Volumes   2         2         4.731GB   0B (0%)
+Build Cache     140       0         2.983GB   2.983GB
+
+=========================================
+  Verificación Completa
+=========================================
+
+Para más información:
+  - README.md: Guía general
+  - N8N_MANUAL.md: Configuración de n8n
+  - TESTING_GUIDE.md: Pruebas end-to-end
+  - TROUBLESHOOTING.md: Solución de problemas
+

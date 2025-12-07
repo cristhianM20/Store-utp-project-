@@ -1,0 +1,12 @@
+total 36
+lrwxrwxrwx. 1 root root 26 dic  2 15:39 java -> /etc/alternatives/java_sdk
+lrwxrwxrwx. 1 root root 29 dic  2 15:39 java-21 -> /etc/alternatives/java_sdk_21
+drwxr-xr-x. 1 root root 84 dic  2 15:39 java-21-openjdk
+drwxr-xr-x. 1 root root 58 dic  2 14:53 java-25-openjdk
+lrwxrwxrwx. 1 root root 34 dic  2 15:39 java-openjdk -> /etc/alternatives/java_sdk_openjdk
+lrwxrwxrwx. 1 root root 21 oct 22 23:09 jre -> /etc/alternatives/jre
+lrwxrwxrwx. 1 root root 24 dic  2 15:39 jre-21 -> /etc/alternatives/jre_21
+lrwxrwxrwx. 1 root root 32 dic  2 15:39 jre-21-openjdk -> /etc/alternatives/jre_21_openjdk
+lrwxrwxrwx. 1 root root 24 oct 22 23:09 jre-25 -> /etc/alternatives/jre_25
+lrwxrwxrwx. 1 root root 32 oct 22 23:09 jre-25-openjdk -> /etc/alternatives/jre_25_openjdk
+lrwxrwxrwx. 1 root root 29 oct 22 23:09 jre-openjdk -> /etc/alternatives/jre_openjdk

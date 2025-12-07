@@ -1,0 +1,30 @@
+  File "/usr/local/lib/python3.11/site-packages/deepface/modules/modeling.py", line 5, in <module>
+    from deepface.basemodels import (
+  File "/usr/local/lib/python3.11/site-packages/deepface/basemodels/VGGFace.py", line 6, in <module>
+    from deepface.modules import verification
+  File "/usr/local/lib/python3.11/site-packages/deepface/modules/verification.py", line 9, in <module>
+    from deepface.modules import representation, detection, modeling
+  File "/usr/local/lib/python3.11/site-packages/deepface/modules/representation.py", line 9, in <module>
+    from deepface.modules import modeling, detection, preprocessing
+  File "/usr/local/lib/python3.11/site-packages/deepface/modules/detection.py", line 11, in <module>
+    from deepface.detectors import DetectorWrapper
+  File "/usr/local/lib/python3.11/site-packages/deepface/detectors/DetectorWrapper.py", line 5, in <module>
+    from deepface.detectors import (
+  File "/usr/local/lib/python3.11/site-packages/deepface/detectors/MtCnn.py", line 3, in <module>
+    from mtcnn import MTCNN
+  File "/usr/local/lib/python3.11/site-packages/mtcnn/__init__.py", line 23, in <module>
+    from mtcnn.mtcnn import MTCNN
+  File "/usr/local/lib/python3.11/site-packages/mtcnn/mtcnn.py", line 26, in <module>
+    from mtcnn.stages import StagePNet, StageRNet, StageONet
+  File "/usr/local/lib/python3.11/site-packages/mtcnn/stages/__init__.py", line 23, in <module>
+    from mtcnn.stages.stage_pnet import StagePNet
+  File "/usr/local/lib/python3.11/site-packages/mtcnn/stages/stage_pnet.py", line 27, in <module>
+    from mtcnn.network.pnet import PNet
+  File "/usr/local/lib/python3.11/site-packages/mtcnn/network/pnet.py", line 28, in <module>
+    L = tf.keras.layers
+        ^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/tensorflow/python/util/lazy_loader.py", line 146, in __getattr__
+    self._initialize()
+  File "/usr/local/lib/python3.11/site-packages/tensorflow/python/util/lazy_loader.py", line 138, in _initialize
+    raise ImportError(  # pylint: disable=raise-missing-from
+ImportError: Keras cannot be imported. Check that it is installed.

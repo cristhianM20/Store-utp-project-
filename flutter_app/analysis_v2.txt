@@ -1,0 +1,23 @@
+Analyzing flutter_app...                                        
+
+   info • Convert 'key' to a super parameter • lib/main.dart:15:9 • use_super_parameters
+warning • Unused import: '../models/user.dart' • lib/providers/auth_provider.dart:3:8 • unused_import
+   info • Convert 'key' to a super parameter • lib/screens/biometric_setup_screen.dart:8:9 • use_super_parameters
+   info • Convert 'key' to a super parameter • lib/screens/cart_screen.dart:8:9 • use_super_parameters
+   info • Don't use 'BuildContext's across async gaps • lib/screens/cart_screen.dart:19:35 • use_build_context_synchronously
+   info • Convert 'key' to a super parameter • lib/screens/chat_screen.dart:7:9 • use_super_parameters
+   info • Convert 'key' to a super parameter • lib/screens/home_screen.dart:13:9 • use_super_parameters
+   info • Don't use 'BuildContext's across async gaps • lib/screens/home_screen.dart:24:36 • use_build_context_synchronously
+   info • Don't use 'BuildContext's across async gaps • lib/screens/home_screen.dart:25:33 • use_build_context_synchronously
+   info • Convert 'key' to a super parameter • lib/screens/login_screen.dart:9:9 • use_super_parameters
+   info • Convert 'key' to a super parameter • lib/screens/product_detail_screen.dart:12:9 • use_super_parameters
+   info • Convert 'key' to a super parameter • lib/screens/register_screen.dart:8:9 • use_super_parameters
+   info • Convert 'key' to a super parameter • lib/screens/splash_screen.dart:8:9 • use_super_parameters
+warning • Unused import: '../models/chat_message.dart' • lib/services/chat_service.dart:4:8 • unused_import
+   info • Convert 'key' to a super parameter • lib/widgets/cart_item_widget.dart:10:9 • use_super_parameters
+   info • Convert 'key' to a super parameter • lib/widgets/chat_bubble.dart:7:9 • use_super_parameters
+   info • Convert 'key' to a super parameter • lib/widgets/custom_button.dart:7:9 • use_super_parameters
+   info • Convert 'key' to a super parameter • lib/widgets/custom_text_field.dart:10:9 • use_super_parameters
+   info • Convert 'key' to a super parameter • lib/widgets/product_card.dart:10:9 • use_super_parameters
+
+19 issues found. (ran in 1.5s)
