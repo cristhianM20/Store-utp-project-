@@ -209,9 +209,7 @@ docker-compose down -v
 - La primera compilación del backend puede tardar varios minutos
 - Para producción, cambia todas las credenciales por defecto
 
-## 👥 Autores
 
-Desarrollado por el equipo de EcommerceAI-Pro.
 
 ## 📄 Licencia
 
