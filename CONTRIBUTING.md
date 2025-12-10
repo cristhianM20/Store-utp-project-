@@ -493,6 +493,30 @@ docker exec -it ecommerceai-pro-postgres-1 psql -U postgres -d ecommerce
 SELECT * FROM products LIMIT 10;
 ```
 
+### Seeding (Datos de Prueba)
+
+Para poblar la base de datos con productos de prueba (PCs y Accesorios), puedes usar el siguiente script SQL.
+
+1. Crear un archivo `seed.sql`:
+
+```sql
+INSERT INTO products (name, description, price, discount_price, category, stock, active, image_url) VALUES
+('Gaming PC Ultra X1', 'Intel Core i9 14900K, RTX 4090 24GB, 64GB DDR5 RAM, 2TB NVMe SSD. Liquid Cooled. The ultimate gaming machine.', 3999.99, 3499.99, 'PC', 10, true, 'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&q=80&w=600'),
+('Workstation Pro', 'AMD Ryzen 9 7950X, 128GB RAM, 4TB SSD, Nvidia A4000. Perfect for 3D rendering and video editing.', 4500.00, NULL, 'PC', 5, true, 'https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&q=80&w=600'),
+('Mini PC Home', 'Intel Core i5, 16GB RAM, 512GB SSD. Compact and silent for home office use.', 599.00, 499.00, 'PC', 50, true, 'https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&q=80&w=600'),
+('Mechanical Keyboard RGB', 'Blue switches, customizable RGB lighting, aluminum frame. Tactile clicky feedback.', 89.99, 79.99, 'Accessories', 100, true, 'https://images.unsplash.com/photo-1595225476474-87563907a212?auto=format&fit=crop&q=80&w=600'),
+('Wireless Gaming Mouse', '20000 DPI sensor, lightweight design, 8 programmable buttons. Ultra-low latency.', 59.99, NULL, 'Accessories', 200, true, 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?auto=format&fit=crop&q=80&w=600'),
+('4K Monitor 27"', 'IPS Panel, 144Hz refresh rate, 1ms response time, HDR400. Stunning visuals.', 349.99, 299.99, 'Accessories', 30, true, 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&q=80&w=600'),
+('Noise Cancelling Headset', 'Active noise cancellation, 30hr battery life, crystal clear microphone.', 129.99, 89.99, 'Accessories', 75, true, 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=600');
+```
+
+2. Copiar y ejecutar en el contenedor de base de datos:
+
+```bash
+docker cp seed.sql $(docker-compose ps -q db):/tmp/seed.sql
+docker-compose exec -T db psql -U dev -d ecomai -f /tmp/seed.sql
+```
+
 ---
 
 ## 🧪 Testing

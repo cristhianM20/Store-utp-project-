@@ -120,7 +120,7 @@ export default function ProductsPage() {
                                 <h3 className="text-xl font-semibold text-gray-900 mb-2">{product.name}</h3>
                                 <p className="text-gray-600 text-sm mb-4 line-clamp-2">{product.description}</p>
                                 <div className="flex justify-between items-center">
-                                    <span className="text-2xl font-bold text-indigo-600">${product.price}</span>
+                                    <span className="text-2xl font-bold text-indigo-600">S/ {product.price}</span>
                                     <span className="text-sm text-gray-500">{product.stock} en stock</span>
                                 </div>
                                 <div className="mt-4 flex gap-2">

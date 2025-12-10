@@ -117,7 +117,16 @@ async def verify_biometrics(request: BiometricRequest):
         img2_path = save_b64_to_temp(request.stored_image, "temp_stored.jpg")
 
         # Verify
-        result = DeepFace.verify(img1_path, img2_path, model_name="VGG-Face", enforce_detection=False)
+        # Using Facenet512 for better accuracy (state-of-the-art accuracy ~99.65%)
+        # enforce_detection=True ensures a face is actually present
+        result = DeepFace.verify(
+            img1_path, 
+            img2_path, 
+            model_name="Facenet512", 
+            detector_backend="opencv",
+            distance_metric="cosine",
+            enforce_detection=True
+        )
         
         # Cleanup
         if os.path.exists(img1_path): os.remove(img1_path)

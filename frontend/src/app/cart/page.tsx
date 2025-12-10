@@ -129,7 +129,7 @@ export default function CartPage() {
                                     </div>
                                     <div className="flex-1">
                                         <h3 className="text-lg font-semibold text-gray-900">{item.productName}</h3>
-                                        <p className="text-indigo-600 font-semibold">${item.productPrice}</p>
+                                        <p className="text-indigo-600 font-semibold">S/ {item.productPrice}</p>
                                         <div className="flex items-center gap-4 mt-4">
                                             <button
                                                 onClick={() => handleUpdateQuantity(item.id, Math.max(1, item.quantity - 1))}
@@ -153,7 +153,7 @@ export default function CartPage() {
                                         </div>
                                     </div>
                                     <div className="text-right">
-                                        <p className="text-lg font-bold text-gray-900">${item.subtotal.toFixed(2)}</p>
+                                        <p className="text-lg font-bold text-gray-900">S/ {item.subtotal.toFixed(2)}</p>
                                     </div>
                                 </div>
                             ))}
@@ -166,7 +166,7 @@ export default function CartPage() {
                                 <div className="space-y-2 mb-6">
                                     <div className="flex justify-between">
                                         <span className="text-gray-600">Items ({cart.items.length})</span>
-                                        <span className="font-semibold">${cart.totalPrice.toFixed(2)}</span>
+                                        <span className="font-semibold">S/ {cart.totalPrice.toFixed(2)}</span>
                                     </div>
                                     <div className="flex justify-between">
                                         <span className="text-gray-600">Shipping</span>
@@ -175,7 +175,7 @@ export default function CartPage() {
                                     <div className="border-t pt-2 mt-2">
                                         <div className="flex justify-between text-lg">
                                             <span className="font-bold">Total</span>
-                                            <span className="font-bold text-indigo-600">${cart.totalPrice.toFixed(2)}</span>
+                                            <span className="font-bold text-indigo-600">S/ {cart.totalPrice.toFixed(2)}</span>
                                         </div>
                                     </div>
                                 </div>
