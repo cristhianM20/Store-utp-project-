@@ -1,13 +1,14 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { getProductById, Product } from '@/lib/products';
 import { addToCart } from '@/lib/cart';
 import { isAuthenticated } from '@/lib/auth';
 
-export default function ProductDetailPage({ params }: { params: { id: string } }) {
+export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
+    const resolvedParams = use(params);
     const router = useRouter();
     const [product, setProduct] = useState<Product | null>(null);
     const [loading, setLoading] = useState(true);
@@ -15,11 +16,11 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
 
     useEffect(() => {
         loadProduct();
-    }, [params.id]);
+    }, [resolvedParams.id]);
 
     const loadProduct = async () => {
         try {
-            const data = await getProductById(parseInt(params.id));
+            const data = await getProductById(parseInt(resolvedParams.id));
             setProduct(data);
         } catch (error) {
             console.error('Error loading product:', error);
