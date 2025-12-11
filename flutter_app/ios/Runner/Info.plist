@@ -45,5 +45,7 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Usamos tu huella digital o Face ID para acceso rápido y seguro a tu cuenta</string>
 </dict>
 </plist>

@@ -138,23 +138,24 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: 16),
 
-                    // Face ID Login Button
-                    OutlinedButton.icon(
-                      onPressed: () async {
-                        // Implementar lógica de captura y login
-                        // Por simplicidad, aquí solo mostramos un mensaje
-                        // En una implementación real, abriría la cámara
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Funcionalidad de Face ID Login en desarrollo')),
-                        );
-                      },
-                      icon: const Icon(Icons.face),
-                      label: const Text('Ingresar con Face ID'),
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        side: const BorderSide(color: Color(0xFF667eea)),
+                    // Fingerprint Login Button
+                    if (authProvider.isBiometricEnabled && authProvider.isBiometricAvailable)
+                      OutlinedButton.icon(
+                        onPressed: authProvider.isLoading
+                            ? null
+                            : () async {
+                                final success = await authProvider.loginWithBiometric();
+                                if (success && mounted) {
+                                  Navigator.of(context).pushReplacementNamed('/home');
+                                }
+                              },
+                        icon: const Icon(Icons.fingerprint),
+                        label: const Text('Ingresar con Huella Digital'),
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          side: const BorderSide(color: Color(0xFF667eea)),
+                        ),
                       ),
-                    ),
                     const SizedBox(height: 16),
 
                     // Register link

@@ -63,10 +63,48 @@ class AuthService {
 
   Future<void> logout() async {
     await storage.delete(key: tokenKey);
+    await disableBiometric(); // Also disable biometric on logout
   }
 
   Future<bool> isAuthenticated() async {
     final token = await getToken();
     return token != null && token.isNotEmpty;
+  }
+
+  // Biometric Authentication Methods
+  static const String biometricEnabledKey = 'biometric_enabled';
+  static const String biometricEmailKey = 'biometric_email';
+  static const String biometricPasswordKey = 'biometric_password';
+
+  /// Enable biometric authentication by storing credentials
+  Future<void> enableBiometric(String email, String password) async {
+    await storage.write(key: biometricEnabledKey, value: 'true');
+    await storage.write(key: biometricEmailKey, value: email);
+    await storage.write(key: biometricPasswordKey, value: password);
+  }
+
+  /// Disable biometric authentication and clear stored credentials
+  Future<void> disableBiometric() async {
+    await storage.delete(key: biometricEnabledKey);
+    await storage.delete(key: biometricEmailKey);
+    await storage.delete(key: biometricPasswordKey);
+  }
+
+  /// Check if biometric authentication is enabled
+  Future<bool> isBiometricEnabled() async {
+    final enabled = await storage.read(key: biometricEnabledKey);
+    return enabled == 'true';
+  }
+
+  /// Login with stored biometric credentials
+  Future<AuthResponse> loginWithBiometric() async {
+    final email = await storage.read(key: biometricEmailKey);
+    final password = await storage.read(key: biometricPasswordKey);
+
+    if (email == null || password == null) {
+      throw Exception('No biometric credentials stored');
+    }
+
+    return await login(email, password);
   }
 }

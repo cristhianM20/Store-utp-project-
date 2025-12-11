@@ -1,63 +1,67 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:http/http.dart' as http;
-import '../config/api_config.dart';
-import '../models/user.dart';
-import 'auth_service.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:flutter/services.dart';
 
 class BiometricService {
-  final AuthService _authService = AuthService();
+  final LocalAuthentication _localAuth = LocalAuthentication();
 
-  Future<bool> registerFace(File imageFile) async {
-    final token = await _authService.getToken();
-    
-    // Convertir imagen a Base64
-    List<int> imageBytes = await imageFile.readAsBytes();
-    String base64Image = base64Encode(imageBytes);
-    
-    // Asegurarse de que tenga el prefijo correcto si el backend lo espera
-    if (!base64Image.startsWith('data:image')) {
-      base64Image = 'data:image/jpeg;base64,$base64Image';
-    }
-
-    final response = await http.post(
-      Uri.parse('${ApiConfig.baseUrl}/auth/register-face'),
-      headers: ApiConfig.getHeaders(token: token),
-      body: jsonEncode({
-        'image': base64Image,
-      }),
-    );
-
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      throw Exception('Failed to register face: ${response.body}');
+  /// Check if the device supports biometric authentication
+  Future<bool> isBiometricAvailable() async {
+    try {
+      return await _localAuth.canCheckBiometrics;
+    } on PlatformException {
+      return false;
     }
   }
 
-  Future<AuthResponse> loginWithFace(File imageFile) async {
-    // Convertir imagen a Base64
-    List<int> imageBytes = await imageFile.readAsBytes();
-    String base64Image = base64Encode(imageBytes);
-    
-    if (!base64Image.startsWith('data:image')) {
-      base64Image = 'data:image/jpeg;base64,$base64Image';
-    }
+  /// Check if device has biometrics enrolled (fingerprint/face registered)
+  Future<bool> hasBiometricsEnrolled() async {
+    try {
+      final isAvailable = await isBiometricAvailable();
+      if (!isAvailable) return false;
 
-    final response = await http.post(
-      Uri.parse('${ApiConfig.baseUrl}${ApiConfig.biometricLoginEndpoint}'),
-      headers: ApiConfig.getHeaders(),
-      body: jsonEncode({
-        'image': base64Image,
-      }),
-    );
-
-    if (response.statusCode == 200) {
-      final authResponse = AuthResponse.fromJson(jsonDecode(response.body));
-      await _authService.saveToken(authResponse.token);
-      return authResponse;
-    } else {
-      throw Exception('Biometric login failed: ${response.body}');
+      final availableBiometrics = await _localAuth.getAvailableBiometrics();
+      return availableBiometrics.isNotEmpty;
+    } on PlatformException {
+      return false;
     }
+  }
+
+  /// Get list of available biometric types
+  Future<List<BiometricType>> getAvailableBiometrics() async {
+    try {
+      return await _localAuth.getAvailableBiometrics();
+    } on PlatformException {
+      return [];
+    }
+  }
+
+  /// Authenticate user with biometrics (fingerprint/face)
+  Future<bool> authenticate({
+    String localizedReason = 'Por favor autentícate para continuar',
+  }) async {
+    try {
+      final isAvailable = await isBiometricAvailable();
+      if (!isAvailable) {
+        return false;
+      }
+
+      return await _localAuth.authenticate(
+        localizedReason: localizedReason,
+        options: const AuthenticationOptions(
+          stickyAuth: true,
+          biometricOnly: true,
+        ),
+      );
+    } on PlatformException catch (e) {
+      print('Biometric authentication error: $e');
+      return false;
+    }
+  }
+
+  /// Check if biometric authentication is supported and enrolled
+  Future<bool> canUseBiometric() async {
+    final isAvailable = await isBiometricAvailable();
+    final hasEnrolled = await hasBiometricsEnrolled();
+    return isAvailable && hasEnrolled;
   }
 }
