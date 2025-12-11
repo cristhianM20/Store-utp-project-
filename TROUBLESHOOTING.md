@@ -114,3 +114,23 @@ docker-compose up -d backend
 ## Resumen
 
 > 💡 **Regla de Oro**: Si tus servicios ya están corriendo (`docker-compose ps` muestra todo "Up"), NO necesitas hacer rebuild a menos que hayas cambiado archivos de configuración de dependencias.
+
+## Problemas de Chat de Voz
+
+### 1. El Bot responde "Error al conectar con el asistente"
+- **Causa**: El modelo de IA (`qwen2.5:7b`) no está descargado en Ollama.
+- **Solución**:
+  - Revisa los logs: `docker compose logs -f ai-service`
+  - Espera a que termine la descarga automática (puede tardar 5-10 min).
+  - O descarga manual: `docker exec ollama ollama pull qwen2.5:7b`
+
+### 2. Error de compilación en Flutter: "RecordLinux" / "conflict"
+- **Causa**: Conflicto de versiones con el paquete `record` en Linux.
+- **Solución**:
+  - Cambiamos a `flutter_sound`.
+  - Ejecuta: `flutter clean && flutter pub get`
+
+### 3. Error 403 Forbidden al construir ai-service
+- **Causa**: Repositorios de Debian bloqueados por red/ISP.
+- **Solución**:
+  - Cambia la imagen base en `Dockerfile` a `python:3.11-slim-bookworm` (estable) o usa un mirror.

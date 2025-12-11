@@ -57,7 +57,10 @@ Esta guía está diseñada para desarrolladores que desean contribuir, modificar
 - **Frontend ↔ Backend**: REST API (HTTP/JSON)
 - **Backend ↔ Database**: JDBC (PostgreSQL)
 - **Frontend ↔ AI Service**: REST API (HTTP/JSON)
+- **App (Voice) ↔ Backend ↔ AI Service**: Multipart Upload (Audio)
 - **AI Service ↔ Ollama**: HTTP API
+- **AI Service ↔ Whisper**: Local Library
+- **AI Service ↔ Piper**: Subprocess Execution
 - **Backend ↔ n8n**: Webhooks (HTTP POST)
 
 ---

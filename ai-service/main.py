@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import requests
@@ -19,6 +19,43 @@ app.add_middleware(
 # Ollama configuration
 OLLAMA_URL = os.getenv("OLLAMA_URL", "http://host.docker.internal:11434")
 MODEL_NAME = "qwen2.5:7b"
+
+async def check_and_pull_model():
+    print(f"Checking if model {MODEL_NAME} exists...")
+    try:
+        # Check existing models
+        resp = requests.get(f"{OLLAMA_URL}/api/tags")
+        if resp.status_code == 200:
+            models = resp.json().get("models", [])
+            model_exists = any(m.get("name") == MODEL_NAME for m in models)
+            if model_exists:
+                print(f"Model {MODEL_NAME} found.")
+                return
+
+        print(f"Model {MODEL_NAME} not found. Pulling... (this may take a while)")
+        # Pull model
+        pull_resp = requests.post(
+            f"{OLLAMA_URL}/api/pull", 
+            json={"name": MODEL_NAME}, 
+            stream=True
+        )
+        if pull_resp.status_code == 200:
+             print("Model pull started successfully.")
+             # Consume stream to ensure it finishes (blocking)
+             for line in pull_resp.iter_lines():
+                 if line:
+                     print(f"Pulling: {line.decode('utf-8')}")
+             print(f"Model {MODEL_NAME} pulled successfully.")
+        else:
+             print(f"Failed to pull model: {pull_resp.text}")
+
+    except Exception as e:
+        print(f"Error checking/pulling model: {e}")
+
+@app.on_event("startup")
+async def startup_event():
+    # Run in background or await - verifying connectivity
+    await check_and_pull_model()
 
 class HealthCheck(BaseModel):
     status: str = "OK"
@@ -84,6 +121,69 @@ Ejemplo de saludo: "¡Hola! Bienvenido a EcommerceAI. Soy tu asistente virtual. 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error: {str(e)}")
 
+import whisper
+import subprocess
+import uuid
+
+# Load Whisper model (do this at startup)
+# Using "tiny" or "base" for speed on CPU, "small" is better but slower
+whisper_model = whisper.load_model("base")
+
+class VoiceResponse(BaseModel):
+    text: str
+    audio: str # Base64 audio
+
+@app.post("/chat/voice", response_model=VoiceResponse, tags=["AI"])
+async def voice_chat(
+    file: UploadFile = File(...)
+):
+    try:
+        # 1. Save uploaded audio to temp file
+        request_id = str(uuid.uuid4())
+        input_audio_path = f"temp_input_{request_id}.wav"
+        
+        with open(input_audio_path, "wb") as buffer:
+            buffer.write(await file.read())
+            
+        # 2. Transcribe with Whisper
+        result = whisper_model.transcribe(input_audio_path)
+        transcribed_text = result["text"]
+        
+        print(f"Transcribed: {transcribed_text}")
+        
+        # 3. Generate Answer with Ollama
+        chat_request = ChatRequest(message=transcribed_text)
+        chat_response = await generate_chat_response(chat_request)
+        response_text = chat_response.response
+        
+        print(f"Response: {response_text}")
+        
+        # 4. Synthesize with Piper TTS
+        output_audio_path = f"temp_output_{request_id}.wav"
+        
+        # Clean text for TTS (remove markdown stars etc)
+        clean_text = response_text.replace("*", "").replace("#", "")
+        
+        # Run Piper
+        # echo 'text' | piper --model /app/models/es_ES-sharvard-medium.onnx --output_file output.wav
+        cmd = f"echo '{clean_text}' | /usr/local/bin/piper --model /app/models/es_ES-sharvard-medium.onnx --output_file {output_audio_path}"
+        subprocess.run(cmd, shell=True, check=True)
+        
+        # 5. Read output audio and convert to base64
+        with open(output_audio_path, "rb") as audio_file:
+            audio_content = audio_file.read()
+            audio_base64 = base64.b64encode(audio_content).decode("utf-8")
+            
+        # Cleanup
+        if os.path.exists(input_audio_path): os.remove(input_audio_path)
+        if os.path.exists(output_audio_path): os.remove(output_audio_path)
+            
+        return VoiceResponse(text=response_text, audio=audio_base64)
+
+    except Exception as e:
+        print(f"Voice chat error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Placeholder for Biometrics
 from deepface import DeepFace
 import base64
@@ -100,9 +200,6 @@ async def verify_biometrics(request: BiometricRequest):
         # Decode base64 images
         # For simplicity, we assume stored_image is also sent as base64 or a valid path that DeepFace can read
         # In a real scenario, we might handle embeddings directly
-        
-        # Save temp files to verify (DeepFace handles paths easier than in-memory bytes sometimes)
-        # But let's try to pass data URI if possible, or write to temp
         
         # Helper to save base64 to temp file
         def save_b64_to_temp(b64_str, filename):

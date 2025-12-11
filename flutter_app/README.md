@@ -1,16 +1,38 @@
-# flutter_app
+# EcommerceAI-Pro Mobile App 📱
 
-A new Flutter project.
+Aplicación móvil oficial de **EcommerceAI-Pro**, construida con Flutter.
 
-## Getting Started
+## 🌟 Características
 
-This project is a starting point for a Flutter application.
+- **Autenticación Biométrica**: Inicio de sesión seguro con Huella Digital o Face ID.
+- **Chat de Voz con IA**: Asistente de ventas inteligente con reconocimiento de voz (Whisper) y respuesta hablada (Piper).
+- **Catálogo en Tiempo Real**: Sincronización con Backend Spring Boot.
+- **Gestión de Carrito**: Experiencia de compra fluida.
 
-A few resources to get you started if this is your first Flutter project:
+## ⚙️ Configuración Rápida
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### 1. Requisitos
+- Flutter SDK 3.x
+- Dispositivo Android (o Emulador)
+- Backend corriendo (ver README principal)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 2. Configuración de Red (¡Importante!)
+Si usas un dispositivo físico, debes configurar la IP de tu servidor backend.
+
+1. Abre `lib/config/api_config.dart`
+2. Modifica la variable `_defaultHost`:
+   ```dart
+   // Para Emulador (por defecto)
+   static const String _defaultHost = 'http://10.0.2.2:8080';
+   
+   // Para Dispositivo Físico (Tu IP local)
+   // static const String _defaultHost = 'http://192.168.1.15:8080';
+   ```
+
+### 3. Ejecutar
+```bash
+flutter pub get
+flutter run
+```
+
+Para documentación completa del sistema, ver el [README Principal](../README.md).

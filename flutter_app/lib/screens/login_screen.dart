@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_text_field.dart';
+import '../../config/api_config.dart';
 import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -17,11 +18,74 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  int _tapCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    // Refresh auth status when login screen loads
+    Future.microtask(() {
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      authProvider.checkAuthStatus();
+      authProvider.clearError();
+    });
+  }
+
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+  
+  void _handleLogoTap(BuildContext context) {
+    _tapCount++;
+    if (_tapCount == 5) {
+      _tapCount = 0;
+      _showConfigDialog(context);
+    }
+  }
+
+  void _showConfigDialog(BuildContext context) {
+    final controller = TextEditingController(text: ApiConfig.host);
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Configuración de Desarrollador'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text('Ingresa la URL del Backend:'),
+            const SizedBox(height: 10),
+            TextField(
+              controller: controller,
+              decoration: const InputDecoration(
+                hintText: 'http://192.168.1.X:8080',
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancelar'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              await ApiConfig.setHost(controller.text);
+              if (mounted) {
+                 Navigator.pop(context);
+                 ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('URL actualizada. Reinicia la app si es necesario.')),
+                 );
+              }
+            },
+            child: const Text('Guardar'),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<void> _handleLogin() async {
@@ -54,16 +118,20 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     const SizedBox(height: 60),
                     // Logo
-                    Text(
-                      'EcommerceAI',
-                      style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            background: Paint()
-                              ..shader = const LinearGradient(
-                                colors: [Color(0xFF667eea), Color(0xFF764ba2)],
-                              ).createShader(const Rect.fromLTWH(0, 0, 200, 70)),
-                          ),
-                      textAlign: TextAlign.center,
+                    // Logo
+                    GestureDetector(
+                      onTap: () => _handleLogoTap(context),
+                      child: Text(
+                        'EcommerceAI',
+                        style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              background: Paint()
+                                ..shader = const LinearGradient(
+                                  colors: [Color(0xFF667eea), Color(0xFF764ba2)],
+                                ).createShader(const Rect.fromLTWH(0, 0, 200, 70)),
+                            ),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                     const SizedBox(height: 8),
                     Text(
@@ -150,7 +218,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 }
                               },
                         icon: const Icon(Icons.fingerprint),
-                        label: const Text('Ingresar con Huella Digital'),
+                        label: Text(authProvider.storedBiometricEmail != null 
+                            ? 'Continuar como ${authProvider.storedBiometricEmail}' 
+                            : 'Ingresar con Huella Digital'),
                         style: OutlinedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           side: const BorderSide(color: Color(0xFF667eea)),

@@ -11,25 +11,28 @@ class AuthProvider with ChangeNotifier {
   String? _error;
   bool _isBiometricAvailable = false;
   bool _isBiometricEnabled = false;
+  String? _storedBiometricEmail;
 
   bool get isAuthenticated => _isAuthenticated;
   bool get isLoading => _isLoading;
   String? get error => _error;
   bool get isBiometricAvailable => _isBiometricAvailable;
   bool get isBiometricEnabled => _isBiometricEnabled;
+  String? get storedBiometricEmail => _storedBiometricEmail;
 
   AuthProvider() {
-    _checkAuthStatus();
-    _checkBiometricAvailability();
+    checkAuthStatus();
+    checkBiometricAvailability();
   }
 
-  Future<void> _checkAuthStatus() async {
+  Future<void> checkAuthStatus() async {
     _isAuthenticated = await _authService.isAuthenticated();
     _isBiometricEnabled = await _authService.isBiometricEnabled();
+    _storedBiometricEmail = await _authService.getBiometricEmail();
     notifyListeners();
   }
 
-  Future<void> _checkBiometricAvailability() async {
+  Future<void> checkBiometricAvailability() async {
     _isBiometricAvailable = await _biometricService.canUseBiometric();
     notifyListeners();
   }

@@ -24,9 +24,9 @@ class CartItemWidget extends StatelessWidget {
               child: SizedBox(
                 width: 80,
                 height: 80,
-                child: item.product.imageUrl != null
+                child: item.productImageUrl != null
                     ? CachedNetworkImage(
-                        imageUrl: item.product.imageUrl!,
+                        imageUrl: item.productImageUrl!,
                         fit: BoxFit.cover,
                         placeholder: (context, url) => Container(color: Colors.grey[200]),
                       )
@@ -43,7 +43,7 @@ class CartItemWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    item.product.name,
+                    item.productName,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -53,7 +53,7 @@ class CartItemWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    '\$${item.product.price.toStringAsFixed(2)}',
+                    'S/${item.productPrice.toStringAsFixed(2)}',
                     style: const TextStyle(
                       color: Color(0xFF667eea),
                       fontWeight: FontWeight.bold,
@@ -80,7 +80,7 @@ class CartItemWidget extends StatelessWidget {
               icon: const Icon(Icons.delete_outline, color: Colors.red),
               onPressed: () {
                 Provider.of<CartProvider>(context, listen: false)
-                    .removeFromCart(item.product.id);
+                    .removeFromCart(item.productId);
               },
             ),
           ],

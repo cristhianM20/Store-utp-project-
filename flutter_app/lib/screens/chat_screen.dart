@@ -1,4 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_sound/flutter_sound.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../models/chat_message.dart';
 import '../services/chat_service.dart';
 import '../widgets/chat_bubble.dart';
@@ -20,8 +26,41 @@ class _ChatScreenState extends State<ChatScreen> {
       timestamp: DateTime.now(),
     ),
   ];
+  
   bool _isLoading = false;
   final ScrollController _scrollController = ScrollController();
+  
+  // Voice Chat State
+  final FlutterSoundRecorder _audioRecorder = FlutterSoundRecorder();
+  final AudioPlayer _audioPlayer = AudioPlayer();
+  bool _isRecording = false;
+  bool _recorderInitialized = false;
+  String? _recordingPath;
+
+  @override
+  void initState() {
+    super.initState();
+    _initRecorder();
+  }
+
+  Future<void> _initRecorder() async {
+    final status = await Permission.microphone.request();
+    if (status != PermissionStatus.granted) {
+      throw Exception('Microphone permission not granted');
+    }
+    
+    await _audioRecorder.openRecorder();
+    _recorderInitialized = true;
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _scrollController.dispose();
+    _audioRecorder.closeRecorder();
+    _audioPlayer.dispose();
+    super.dispose();
+  }
 
   void _scrollToBottom() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -33,6 +72,102 @@ class _ChatScreenState extends State<ChatScreen> {
         );
       }
     });
+  }
+
+  Future<void> _startRecording() async {
+    if (!_recorderInitialized) return;
+    
+    try {
+      final directory = await getTemporaryDirectory();
+      final path = '${directory.path}/recording_${DateTime.now().millisecondsSinceEpoch}.aac';
+      
+      await _audioRecorder.startRecorder(
+        toFile: path,
+        codec: Codec.aacADTS,
+      );
+      
+      setState(() {
+        _isRecording = true;
+        _recordingPath = path;
+      });
+    } catch (e) {
+      print('Error starting record: $e');
+    }
+  }
+
+  Future<void> _stopRecording() async {
+    try {
+      final path = await _audioRecorder.stopRecorder();
+      setState(() {
+        _isRecording = false;
+      });
+
+      if (path != null) {
+        _sendVoiceMessage(path);
+      }
+    } catch (e) {
+      print('Error stopping record: $e');
+    }
+  }
+
+  Future<void> _playAudioResponse(String base64Audio) async {
+    try {
+      final bytes = base64Decode(base64Audio);
+      final directory = await getTemporaryDirectory();
+      final path = '${directory.path}/response_${DateTime.now().millisecondsSinceEpoch}.wav';
+      final file = File(path);
+      await file.writeAsBytes(bytes);
+      
+      await _audioPlayer.play(DeviceFileSource(path));
+    } catch (e) {
+      print('Error playing audio: $e');
+    }
+  }
+
+  Future<void> _sendVoiceMessage(String path) async {
+    setState(() {
+      _messages.add(ChatMessage(
+        content: '🎤 Mensaje de voz enviado',
+        isUser: true,
+        timestamp: DateTime.now(),
+      ));
+      _isLoading = true;
+    });
+    _scrollToBottom();
+
+    try {
+      final responseMap = await _chatService.sendVoiceMessage(path);
+      final responseText = responseMap['text'];
+      final responseAudio = responseMap['audio'];
+
+      if (mounted) {
+        setState(() {
+          _messages.add(ChatMessage(
+            content: responseText,
+            isUser: false,
+            timestamp: DateTime.now(),
+          ));
+          _isLoading = false;
+        });
+        _scrollToBottom();
+        
+        if (responseAudio != null) {
+          _playAudioResponse(responseAudio);
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _messages.add(ChatMessage(
+            content: 'Lo siento, hubo un error al procesar tu audio.',
+            isUser: false,
+            timestamp: DateTime.now(),
+          ));
+          _isLoading = false;
+        });
+        _scrollToBottom();
+      }
+    }
   }
 
   Future<void> _sendMessage() async {
@@ -118,7 +253,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     child: CircularProgressIndicator(strokeWidth: 2),
                   ),
                   SizedBox(width: 8),
-                  Text('Escribiendo...', style: TextStyle(color: Colors.grey)),
+                  Text('Pensando...', style: TextStyle(color: Colors.grey)),
                 ],
               ),
             ),
@@ -138,11 +273,28 @@ class _ChatScreenState extends State<ChatScreen> {
             child: SafeArea(
               child: Row(
                 children: [
+                   // Microphone Button
+                  GestureDetector(
+                    onLongPress: _startRecording,
+                    onLongPressUp: _stopRecording,
+                    child: Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: _isRecording ? Colors.red : Colors.grey[200],
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        _isRecording ? Icons.mic : Icons.mic_none,
+                        color: _isRecording ? Colors.white : const Color(0xFF667eea),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: TextField(
                       controller: _controller,
                       decoration: InputDecoration(
-                        hintText: 'Escribe un mensaje...',
+                        hintText: _isRecording ? 'Escuchando...' : 'Escribe un mensaje...',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(24),
                           borderSide: BorderSide.none,
@@ -156,6 +308,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       ),
                       textCapitalization: TextCapitalization.sentences,
                       onSubmitted: (_) => _sendMessage(),
+                      enabled: !_isRecording,
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -163,7 +316,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     backgroundColor: const Color(0xFF667eea),
                     child: IconButton(
                       icon: const Icon(Icons.send, color: Colors.white, size: 20),
-                      onPressed: _isLoading ? null : _sendMessage,
+                      onPressed: _isLoading || _isRecording ? null : _sendMessage,
                     ),
                   ),
                 ],

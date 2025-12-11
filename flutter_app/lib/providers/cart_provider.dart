@@ -13,7 +13,7 @@ class CartProvider with ChangeNotifier {
   String? get error => _error;
 
   int get itemCount => _cart?.items.fold(0, (sum, item) => sum! + item.quantity) ?? 0;
-  double get total => _cart?.total ?? 0.0;
+  double get total => _cart?.totalPrice ?? 0.0;
 
   Future<void> fetchCart() async {
     _isLoading = true;

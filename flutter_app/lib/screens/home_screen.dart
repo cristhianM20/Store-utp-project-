@@ -148,21 +148,63 @@ class _HomeScreenState extends State<HomeScreen> {
             return const Center(child: Text('No hay productos disponibles'));
           }
 
-          return RefreshIndicator(
-            onRefresh: () => productProvider.fetchProducts(),
-            child: GridView.builder(
-              padding: const EdgeInsets.all(16),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.75,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
+          return Column(
+            children: [
+              // Category Filter
+              Container(
+                height: 60,
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  itemCount: productProvider.categories.length,
+                  itemBuilder: (context, index) {
+                    final category = productProvider.categories[index];
+                    final isSelected = productProvider.selectedCategory == category;
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: FilterChip(
+                        label: Text(
+                          category == 'all' 
+                            ? 'Todos' 
+                            : category.substring(0, 1).toUpperCase() + category.substring(1),
+                        ),
+                        selected: isSelected,
+                        onSelected: (_) => productProvider.setCategory(category),
+                        selectedColor: const Color(0xFF667eea),
+                        checkmarkColor: Colors.white,
+                        labelStyle: TextStyle(
+                          color: isSelected ? Colors.white : Colors.grey[700],
+                          fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                        ),
+                        backgroundColor: Colors.white,
+                        elevation: isSelected ? 4 : 1,
+                        shadowColor: const Color(0xFF667eea).withOpacity(0.3),
+                      ),
+                    );
+                  },
+                ),
               ),
-              itemCount: productProvider.products.length,
-              itemBuilder: (context, index) {
-                return ProductCard(product: productProvider.products[index]);
-              },
-            ),
+              // Products Grid
+              Expanded(
+                child: RefreshIndicator(
+                  onRefresh: () => productProvider.fetchProducts(),
+                  child: GridView.builder(
+                    padding: const EdgeInsets.all(16),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.75,
+                      crossAxisSpacing: 16,
+                      mainAxisSpacing: 16,
+                    ),
+                    itemCount: productProvider.filteredProducts.length,
+                    itemBuilder: (context, index) {
+                      return ProductCard(product: productProvider.filteredProducts[index]);
+                    },
+                  ),
+                ),
+              ),
+            ],
           );
         },
       ),

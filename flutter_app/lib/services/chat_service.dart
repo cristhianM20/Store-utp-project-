@@ -43,4 +43,29 @@ class ChatService {
       throw Exception('Error connecting to chat service: $e');
     }
   }
+  Future<Map<String, dynamic>> sendVoiceMessage(String filePath) async {
+    final token = await _authService.getToken();
+    final url = Uri.parse('${ApiConfig.baseUrl}${ApiConfig.chatVoiceEndpoint}');
+
+    try {
+      var request = http.MultipartRequest('POST', url);
+      
+      if (token != null) {
+        request.headers['Authorization'] = 'Bearer $token';
+      }
+
+      request.files.add(await http.MultipartFile.fromPath('file', filePath));
+
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      } else {
+        throw Exception('Failed to send voice message: ${response.statusCode} - ${response.body}');
+      }
+    } catch (e) {
+      throw Exception('Error sending voice message: $e');
+    }
+  }
 }

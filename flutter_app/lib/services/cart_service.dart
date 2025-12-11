@@ -24,18 +24,16 @@ class CartService {
   Future<Cart> addToCart(int productId, int quantity) async {
     final token = await _authService.getToken();
     final response = await http.post(
-      Uri.parse('${ApiConfig.baseUrl}${ApiConfig.addToCartEndpoint}'),
+      Uri.parse('${ApiConfig.baseUrl}${ApiConfig.addToCartEndpoint}?productId=$productId&quantity=$quantity'),
       headers: ApiConfig.getHeaders(token: token),
-      body: jsonEncode({
-        'productId': productId,
-        'quantity': quantity,
-      }),
     );
 
     if (response.statusCode == 200) {
       return Cart.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception('Failed to add to cart');
+      print('addToCart Error: Status ${response.statusCode}');
+      print('Response body: ${response.body}');
+      throw Exception('Failed to add to cart: ${response.statusCode} - ${response.body}');
     }
   }
 

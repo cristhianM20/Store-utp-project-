@@ -42,17 +42,30 @@ class BiometricService {
     try {
       final isAvailable = await isBiometricAvailable();
       if (!isAvailable) {
+        print('Biometric not available on device');
         return false;
       }
 
-      return await _localAuth.authenticate(
+      final hasEnrolled = await hasBiometricsEnrolled();
+      if (!hasEnrolled) {
+        print('No biometrics enrolled on device');
+        return false;
+      }
+
+      print('Attempting biometric authentication...');
+      final result = await _localAuth.authenticate(
         localizedReason: localizedReason,
         options: const AuthenticationOptions(
           stickyAuth: true,
           biometricOnly: true,
         ),
       );
+      print('Biometric authentication result: $result');
+      return result;
     } on PlatformException catch (e) {
+      print('Biometric authentication PlatformException: ${e.code} - ${e.message}');
+      return false;
+    } catch (e) {
       print('Biometric authentication error: $e');
       return false;
     }

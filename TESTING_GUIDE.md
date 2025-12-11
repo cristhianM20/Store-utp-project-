@@ -46,7 +46,18 @@ Esta guía describe el escenario de prueba completo para validar la integración
 **Objetivo**: Verificar integración con Ollama/LLM.
 1. En la Web o Móvil, abre el Chat.
 2. Pregunta: *"¿Qué productos me recomiendas para programar?"* o *"¿Tienen laptops?"*.
-3. **Validación**: El asistente debe responder coherentemente basado en el contexto (o respuesta general si no tiene contexto de productos vectorizado aún).
+3. **Validación**: El asistente debe responder coherentemente.
+
+### 7. Chat de Voz (Móvil) 🎤
+**Objetivo**: Verificar reconocimiento de voz (Whisper) y síntesis (Piper).
+1. En la App Móvil, ve a la pantalla de Chat.
+2. Mantén presionado el icono de **Micrófono** (se pondrá rojo).
+3. Di en voz alta: *"Quiero comprar unos audífonos"*.
+4. Suelta el botón.
+5. **Validación**:
+   - Tu texto aparece transcrito en el chat.
+   - El bot responde con texto.
+   - **Escuchas** la respuesta del bot en audio.
 
 ---
 

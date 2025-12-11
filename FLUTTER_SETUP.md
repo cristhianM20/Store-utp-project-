@@ -2,6 +2,17 @@
 
 Flutter no está instalado en tu sistema. Aquí están las instrucciones para instalarlo en Fedora Linux.
 
+## Configuración de Conexión (Importante)
+
+- **Emulador**: Usa `http://10.0.2.2:8080` (configurado por defecto).
+- **Dispositivo Físico**:
+  1. Conecta tu PC y celular a la misma red WiFi.
+  2. Obtén tu IP local (ej: `ip addr` en Linux/Mac o `ipconfig` en Windows).
+  3. Edita `lib/config/api_config.dart`.
+  4. Cambia `_defaultHost` a tu IP: `http://192.168.1.X:8080`.
+
+---
+
 ## Instalación Rápida en Fedora
 
 ### 1. Descargar Flutter SDK

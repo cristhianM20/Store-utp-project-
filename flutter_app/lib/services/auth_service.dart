@@ -63,7 +63,6 @@ class AuthService {
 
   Future<void> logout() async {
     await storage.delete(key: tokenKey);
-    await disableBiometric(); // Also disable biometric on logout
   }
 
   Future<bool> isAuthenticated() async {
@@ -94,6 +93,11 @@ class AuthService {
   Future<bool> isBiometricEnabled() async {
     final enabled = await storage.read(key: biometricEnabledKey);
     return enabled == 'true';
+  }
+
+  /// Get stored biometric email
+  Future<String?> getBiometricEmail() async {
+    return await storage.read(key: biometricEmailKey);
   }
 
   /// Login with stored biometric credentials

@@ -1,17 +1,41 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
 class ApiConfig {
-  // Para emulador Android usa 10.0.2.2 (localhost del host)
-  // Para iOS simulator usa localhost
-  // Para dispositivo físico usa la IP de tu computadora en la red local
+  static const String _defaultHost = 'http://10.0.2.2:8080';
+  static String _host = _defaultHost;
   
-  static const String host = 'http://10.0.2.2:8080';
-  static const String baseUrl = '$host/api';
-  static const String aiUrl = 'http://10.0.2.2:8000';
+  static String get host => _host;
+  static String get baseUrl => '$_host/api';
+  // Asumimos que AI service corre en puerto diferente o misma IP
+  // Para simplificar, asumiremos que si cambias la IP, todo cambia
+  static String get aiUrl => _host.replaceAll('8080', '8000'); 
+
+  static Future<void> init() async {
+    final prefs = await SharedPreferences.getInstance();
+    _host = prefs.getString('api_host') ?? _defaultHost;
+  }
+
+  static Future<void> setHost(String newHost) async {
+    // Asegurar que no termine en slash
+    if (newHost.endsWith('/')) {
+        newHost = newHost.substring(0, newHost.length - 1);
+    }
+    
+    // Asegurar http/https
+    if (!newHost.startsWith('http')) {
+        newHost = 'http://$newHost';
+    }
+
+    _host = newHost;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('api_host', _host);
+  }
 
   static String getImageUrl(String? path) {
     if (path == null || path.isEmpty) return '';
     if (path.startsWith('http')) return path;
-    if (path.startsWith('/')) return '$host$path';
-    return '$host/$path';
+    if (path.startsWith('/')) return '$_host$path';
+    return '$_host/$path';
   }
   
   // Endpoints
@@ -26,6 +50,7 @@ class ApiConfig {
   static const String addToCartEndpoint = '/cart/items';
   
   static const String chatEndpoint = '/chat/generate';
+  static const String chatVoiceEndpoint = '/chat/voice';
   
   // HTTP Headers
   static Map<String, String> getHeaders({String? token}) {

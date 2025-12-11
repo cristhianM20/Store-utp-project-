@@ -99,7 +99,7 @@ class _CartScreenState extends State<CartScreen> {
                           ),
                         ),
                         Text(
-                          '\$${cartProvider.total.toStringAsFixed(2)}',
+                          'S/${cartProvider.total.toStringAsFixed(2)}',
                           style: const TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,

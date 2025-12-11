@@ -7,6 +7,7 @@ EcommerceAI-Pro es una plataforma de comercio electrónico de última generació
 - **Full Stack Moderno**: Backend Spring Boot + Frontend Next.js + App Móvil Flutter
 - **Inteligencia Artificial**:
   - **Chatbot Asistente**: Responde preguntas sobre productos y ayuda en la compra (Qwen 2.5 vía Ollama)
+  - **Chat de Voz**: Interacción por voz bidireccional (Whisper para STT + Piper para TTS)
   - **Biometría Facial**: Login y registro seguro usando reconocimiento facial (DeepFace)
 - **Automatización**: Integración con n8n para flujos de trabajo inteligentes (ej. recuperación de carritos)
 - **Experiencia de Usuario Premium**: Diseño UI/UX de alta calidad con animaciones y transiciones fluidas
@@ -43,8 +44,8 @@ docker-compose up -d --build
 Esto iniciará todos los servicios. La primera vez puede tardar unos minutos en descargar las imágenes y modelos de IA.
 
 ### 2. Configurar Modelos de IA
-
-Una vez que los contenedores estén corriendo, necesitas descargar el modelo para Ollama:
+ 
+El servicio de IA intentará descargar automáticamente el modelo `qwen2.5:7b` al iniciarse. Sin embargo, puedes hacerlo manualmente para asegurar que esté listo:
 
 ```bash
 # Descargar el modelo Qwen 2.5 (recomendado)

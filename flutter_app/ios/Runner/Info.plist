@@ -47,5 +47,7 @@
 	<true/>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Usamos tu huella digital o Face ID para acceso rápido y seguro a tu cuenta</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Necesitamos acceso al micrófono para hablar con el asistente de IA</string>
 </dict>
 </plist>

@@ -9,6 +9,7 @@ import com.ecommerceai.backend.repository.CartRepository;
 import com.ecommerceai.backend.repository.ProductRepository;
 import com.ecommerceai.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.Data;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -59,8 +60,8 @@ public class CartController {
                 cart.setUpdatedAt(LocalDateTime.now());
                 Cart savedCart = cartRepository.save(cart);
 
-                // Send webhook to n8n
-                sendN8nWebhook(user, product, quantity);
+                // Send webhook to n8n - DISABLED (n8n not running)
+                // sendN8nWebhook(user, product, quantity);
 
                 return ResponseEntity.ok(convertToDTO(savedCart));
         }

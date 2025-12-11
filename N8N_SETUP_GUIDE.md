@@ -1,4 +1,4 @@
-# Configur ación de n8n Workflows
+# Configuración de n8n Workflows
 
 Este documento te guía paso a paso para configurar los workflows de n8n para automatizar eventos del e-commerce.
 
