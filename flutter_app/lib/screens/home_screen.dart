@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('EcommerceAI'),
+        title: const Text('Importaciones UTP'),
         actions: [
           Consumer<CartProvider>(
             builder: (context, cartProvider, child) {
@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Container(
                         padding: const EdgeInsets.all(2),
                         decoration: BoxDecoration(
-                          color: Colors.red,
+                          color: Colors.black, // Contrast against white/red
                           borderRadius: BorderRadius.circular(10),
                         ),
                         constraints: const BoxConstraints(
@@ -82,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const DrawerHeader(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Color(0xFF667eea), Color(0xFF764ba2)],
+                  colors: [Color(0xFFD50032), Colors.black],
                 ),
               ),
               child: Column(
@@ -171,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         selected: isSelected,
                         onSelected: (_) => productProvider.setCategory(category),
-                        selectedColor: const Color(0xFF667eea),
+                        selectedColor: const Color(0xFFD50032),
                         checkmarkColor: Colors.white,
                         labelStyle: TextStyle(
                           color: isSelected ? Colors.white : Colors.grey[700],
@@ -179,7 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         backgroundColor: Colors.white,
                         elevation: isSelected ? 4 : 1,
-                        shadowColor: const Color(0xFF667eea).withOpacity(0.3),
+                        shadowColor: const Color(0xFFD50032).withOpacity(0.3),
                       ),
                     );
                   },
@@ -215,7 +215,7 @@ class _HomeScreenState extends State<HomeScreen> {
             MaterialPageRoute(builder: (context) => const ChatScreen()),
           );
         },
-        backgroundColor: const Color(0xFF667eea),
+        backgroundColor: const Color(0xFFD50032),
         child: const Icon(Icons.chat_bubble_outline),
       ),
     );

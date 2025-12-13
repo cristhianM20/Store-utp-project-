@@ -44,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Color(0xFF667eea), Color(0xFF764ba2)],
+            colors: [Color(0xFFD50032), Colors.black],
           ),
         ),
         child: const Center(
@@ -58,7 +58,8 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
               SizedBox(height: 16),
               Text(
-                'EcommerceAI',
+                'Importaciones UTP',
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,

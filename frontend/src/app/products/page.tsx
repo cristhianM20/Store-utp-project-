@@ -50,9 +50,9 @@ export default function ProductsPage() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 flex items-center justify-center">
+            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
                 <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto"></div>
                     <p className="mt-4 text-gray-600">Cargando productos...</p>
                 </div>
             </div>
@@ -60,24 +60,24 @@ export default function ProductsPage() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+        <div className="min-h-screen bg-gray-50">
             {/* Header */}
             <nav className="bg-white shadow-sm border-b border-gray-200">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center h-16">
                         <Link href="/dashboard">
-                            <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent cursor-pointer">
-                                tienda sin nombre xd
+                            <h1 className="text-2xl font-bold text-red-600 cursor-pointer">
+                                Importaciones UTP
                             </h1>
                         </Link>
                         <div className="flex gap-4">
                             <Link href="/cart">
-                                <button className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-indigo-600 transition-colors">
+                                <button className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-red-600 transition-colors">
                                     🛒 Carrito
                                 </button>
                             </Link>
                             <Link href="/dashboard">
-                                <button className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-indigo-600 transition-colors">
+                                <button className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-red-600 transition-colors">
                                     Panel
                                 </button>
                             </Link>
@@ -96,7 +96,7 @@ export default function ProductsPage() {
                             key={cat}
                             onClick={() => setSelectedCategory(cat)}
                             className={`px-4 py-2 rounded-lg font-medium transition-all ${selectedCategory === cat
-                                ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white'
+                                ? 'bg-red-600 text-white'
                                 : 'bg-white text-gray-700 hover:bg-gray-100'
                                 }`}
                         >
@@ -108,8 +108,8 @@ export default function ProductsPage() {
                 {/* Products Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {filteredProducts.map(product => (
-                        <div key={product.id} className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-                            <div className="h-48 bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center">
+                        <div key={product.id} className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow border border-gray-100">
+                            <div className="h-48 bg-gray-50 flex items-center justify-center">
                                 {product.id ? (
                                     <img src={`${process.env.NEXT_PUBLIC_API_URL}/api/products/${product.id}/image`} alt={product.name} className="w-full h-full object-cover" />
                                 ) : (
@@ -120,18 +120,18 @@ export default function ProductsPage() {
                                 <h3 className="text-xl font-semibold text-gray-900 mb-2">{product.name}</h3>
                                 <p className="text-gray-600 text-sm mb-4 line-clamp-2">{product.description}</p>
                                 <div className="flex justify-between items-center">
-                                    <span className="text-2xl font-bold text-indigo-600">S/ {product.price}</span>
+                                    <span className="text-2xl font-bold text-red-600">S/ {product.price}</span>
                                     <span className="text-sm text-gray-500">{product.stock} en stock</span>
                                 </div>
                                 <div className="mt-4 flex gap-2">
                                     <Link href={`/products/${product.id}`} className="flex-1">
-                                        <button className="w-full px-4 py-2 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition-colors">
+                                        <button className="w-full px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors">
                                             Ver Detalles
                                         </button>
                                     </Link>
                                     <button
                                         onClick={() => handleAddToCart(product.id)}
-                                        className="flex-1 px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-medium hover:from-indigo-700 hover:to-purple-700 transition-all"
+                                        className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition-all"
                                     >
                                         Agregar al Carrito
                                     </button>

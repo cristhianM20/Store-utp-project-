@@ -63,9 +63,9 @@ export default function CartPage() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 flex items-center justify-center">
+            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
                 <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto"></div>
                     <p className="mt-4 text-gray-600">Loading cart...</p>
                 </div>
             </div>
@@ -73,18 +73,18 @@ export default function CartPage() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+        <div className="min-h-screen bg-gray-50">
             {/* Header */}
             <nav className="bg-white shadow-sm border-b border-gray-200">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center h-16">
                         <Link href="/products">
-                            <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent cursor-pointer">
-                                EcommerceAI
+                            <h1 className="text-2xl font-bold text-red-600 cursor-pointer">
+                                Importaciones UTP
                             </h1>
                         </Link>
                         <Link href="/dashboard">
-                            <button className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-indigo-600 transition-colors">
+                            <button className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-red-600 transition-colors">
                                 Dashboard
                             </button>
                         </Link>
@@ -106,10 +106,10 @@ export default function CartPage() {
                 </div>
 
                 {!cart || cart.items.length === 0 ? (
-                    <div className="bg-white rounded-2xl shadow-xl p-12 text-center">
+                    <div className="bg-white rounded-2xl shadow-xl p-12 text-center border border-gray-100">
                         <p className="text-gray-500 text-lg mb-6">Your cart is empty</p>
                         <Link href="/products">
-                            <button className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all">
+                            <button className="px-6 py-3 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition-all">
                                 Continue Shopping
                             </button>
                         </Link>
@@ -119,8 +119,8 @@ export default function CartPage() {
                         {/* Cart Items */}
                         <div className="lg:col-span-2 space-y-4">
                             {cart.items.map(item => (
-                                <div key={item.id} className="bg-white rounded-xl shadow-lg p-6 flex gap-4">
-                                    <div className="w-24 h-24 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <div key={item.id} className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex gap-4">
+                                    <div className="w-24 h-24 bg-gray-50 rounded-lg flex items-center justify-center flex-shrink-0">
                                         {item.productImageUrl ? (
                                             <img src={item.productImageUrl} alt={item.productName} className="w-full h-full object-cover rounded-lg" />
                                         ) : (
@@ -129,18 +129,18 @@ export default function CartPage() {
                                     </div>
                                     <div className="flex-1">
                                         <h3 className="text-lg font-semibold text-gray-900">{item.productName}</h3>
-                                        <p className="text-indigo-600 font-semibold">S/ {item.productPrice}</p>
+                                        <p className="text-red-600 font-semibold">S/ {item.productPrice}</p>
                                         <div className="flex items-center gap-4 mt-4">
                                             <button
                                                 onClick={() => handleUpdateQuantity(item.id, Math.max(1, item.quantity - 1))}
-                                                className="w-8 h-8 bg-gray-200 rounded hover:bg-gray-300 transition-colors font-bold"
+                                                className="w-8 h-8 bg-gray-100 rounded hover:bg-gray-200 transition-colors font-bold"
                                             >
                                                 -
                                             </button>
                                             <span className="font-semibold w-8 text-center">{item.quantity}</span>
                                             <button
                                                 onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
-                                                className="w-8 h-8 bg-gray-200 rounded hover:bg-gray-300 transition-colors font-bold"
+                                                className="w-8 h-8 bg-gray-100 rounded hover:bg-gray-200 transition-colors font-bold"
                                             >
                                                 +
                                             </button>
@@ -161,7 +161,7 @@ export default function CartPage() {
 
                         {/* Order Summary */}
                         <div className="lg:col-span-1">
-                            <div className="bg-white rounded-xl shadow-lg p-6 sticky top-4">
+                            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 sticky top-4">
                                 <h3 className="text-xl font-bold text-gray-900 mb-4">Order Summary</h3>
                                 <div className="space-y-2 mb-6">
                                     <div className="flex justify-between">
@@ -175,15 +175,15 @@ export default function CartPage() {
                                     <div className="border-t pt-2 mt-2">
                                         <div className="flex justify-between text-lg">
                                             <span className="font-bold">Total</span>
-                                            <span className="font-bold text-indigo-600">S/ {cart.totalPrice.toFixed(2)}</span>
+                                            <span className="font-bold text-red-600">S/ {cart.totalPrice.toFixed(2)}</span>
                                         </div>
                                     </div>
                                 </div>
-                                <button className="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-lg">
+                                <button className="w-full py-3 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-lg">
                                     Proceed to Checkout
                                 </button>
                                 <Link href="/products">
-                                    <button className="w-full mt-3 py-3 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition-colors">
+                                    <button className="w-full mt-3 py-3 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors">
                                         Continue Shopping
                                     </button>
                                 </Link>

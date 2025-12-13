@@ -40,11 +40,11 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-20 px-4">
+      <div className="bg-gradient-to-r from-red-600 to-black text-white py-20 px-4">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">Bienvenido a EcommerceAI</h1>
-          <p className="text-xl md:text-2xl mb-8 opacity-90">La mejor tecnología al mejor precio, impulsada por IA.</p>
-          <Link href="/products" className="bg-white text-indigo-600 px-8 py-3 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors">
+          <h1 className="text-4xl md:text-6xl font-bold mb-6">Bienvenido a Importaciones UTP</h1>
+          <p className="text-xl md:text-2xl mb-8 opacity-90">Tu tienda universitaria de confianza, ahora con IA.</p>
+          <Link href="/products" className="bg-white text-red-600 px-8 py-3 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors">
             Ver Catálogo Completo
           </Link>
         </div>
@@ -77,7 +77,7 @@ export default function Home() {
         </section>
       </div>
 
-      <ChatWidget context="El usuario está en la página de inicio viendo ofertas y productos destacados." />
+      <ChatWidget context="El usuario está en la página de inicio de Importaciones UTP viendo ofertas y productos destacados." />
     </div>
   );
 }
@@ -87,7 +87,7 @@ function ProductCard({ product, isOffer = false }: { product: Product; isOffer?:
     <Link href={`/products/${product.id}`} className="group">
       <div className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden h-full flex flex-col relative border border-gray-100">
         {isOffer && (
-          <div className="absolute top-3 right-3 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold z-10 animate-pulse">
+          <div className="absolute top-3 right-3 bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold z-10 animate-pulse">
             OFERTA
           </div>
         )}
@@ -99,10 +99,10 @@ function ProductCard({ product, isOffer = false }: { product: Product; isOffer?:
           />
         </div>
         <div className="p-5 flex flex-col flex-1">
-          <div className="text-xs font-medium text-indigo-600 mb-1 uppercase tracking-wider">
+          <div className="text-xs font-medium text-red-600 mb-1 uppercase tracking-wider">
             {product.category}
           </div>
-          <h3 className="font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-indigo-600 transition-colors">
+          <h3 className="font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-red-600 transition-colors">
             {product.name}
           </h3>
           <div className="mt-auto pt-4 flex items-end justify-between">
@@ -116,7 +116,7 @@ function ProductCard({ product, isOffer = false }: { product: Product; isOffer?:
                 <span className="text-xl font-bold text-gray-900">${product.price.toFixed(2)}</span>
               )}
             </div>
-            <button className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+            <button className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 group-hover:bg-red-600 group-hover:text-white transition-colors">
               →
             </button>
           </div>

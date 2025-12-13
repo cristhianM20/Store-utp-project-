@@ -27,15 +27,27 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CartProvider()),
       ],
       child: MaterialApp(
-        title: 'EcommerceAI',
+        title: 'Importaciones UTP',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.indigo,
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color(0xFFD50032), // UTP Red
+            primary: const Color(0xFFD50032),
+            secondary: const Color(0xFF000000), // Black
+          ),
           scaffoldBackgroundColor: Colors.grey[50],
           appBarTheme: const AppBarTheme(
             elevation: 0,
             backgroundColor: Colors.white,
-            foregroundColor: Colors.black87,
+            foregroundColor: Color(0xFFD50032), // Red text for AppBar
+            iconTheme: IconThemeData(color: Color(0xFFD50032)),
+          ),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+             style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFD50032),
+                foregroundColor: Colors.white,
+             ),
           ),
         ),
         home: const SplashScreen(),

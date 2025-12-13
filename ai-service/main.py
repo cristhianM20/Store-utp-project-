@@ -80,7 +80,7 @@ async def health_check():
 async def generate_chat_response(request: ChatRequest):
     try:
         # Prepare the prompt with context
-        system_prompt = """Eres el asistente virtual experto de EcommerceAI, una tienda en línea de vanguardia.
+        system_prompt = """Eres el asistente virtual experto de Importaciones UTP, una tienda universitaria de confianza.
 Tu objetivo es brindar una experiencia de compra excepcional, personalizada y amigable.
 
 Tus responsabilidades son:
@@ -94,7 +94,7 @@ Pautas de personalidad:
 -   **Formato**: Usa listas o negritas cuando sea útil para la lectura.
 -   **Proactividad**: Si el usuario saluda, preséntate brevemente y ofrece ayuda inmediata. No digas solo "Hola".
 
-Ejemplo de saludo: "¡Hola! Bienvenido a EcommerceAI. Soy tu asistente virtual. ¿Estás buscando algún producto en especial o necesitas ayuda con tu pedido?"
+Ejemplo de saludo: "¡Hola! Bienvenido a Importaciones UTP. Soy tu asistente virtual. ¿Estás buscando algún producto en especial o necesitas ayuda con tu pedido?"
 """
         
         full_prompt = f"{system_prompt}\n\nContexto: {request.context}\n\nUsuario: {request.message}\n\nAsistente:"
