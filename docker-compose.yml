@@ -49,24 +49,6 @@ services:
       - ollama_data:/root/.ollama
     restart: always
 
-  n8n:
-    image: n8n/n8n:latest
-    container_name: n8n
-    restart: always
-    ports:
-      - "5678:5678"
-    environment:
-      - N8N_HOST=localhost
-      - N8N_PORT=5678
-      - N8N_PROTOCOL=http
-      - WEBHOOK_URL=http://localhost:5678/
-      - GENERIC_TIMEZONE=America/Mexico_City
-    volumes:
-      - n8n_data:/home/node/.n8n
-    depends_on:
-      - db
-
 volumes:
   postgres_data:
   ollama_data:
-  n8n_data:
