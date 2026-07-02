@@ -1,40 +1,43 @@
 ```
-# Log files
+# Docker related
+.dockerenv
+.dockerinit
+*.dockerignore
+
+# Environment variables
+.env
+.env.local
+.env.*
+
+# Logs
 *.log
 
 # Temporary files
 *.tmp
-
-# Environment files
-.env
-.env.local
-*.env.*
-
-# Cache directories
-__pycache__/
-*.pyc
-
-# Build artifacts
-dist/
-build/
-target/
-
-# Dependencies
-node_modules/
-venv/
-.venv/
-
-# IDE files
-.vscode/
-.idea/
 *.swp
 *.swo
 
-# System files
+# OS specific
 .DS_Store
 Thumbs.db
 
-# Coverage reports
+# Dependencies (if any appear later)
+node_modules/
+venv/
+.venv/
+__pycache__/
+.mypy_cache/
+.pytest_cache/
+dist/
+build/
+target/
+.gradle/
+
+# Editors
+.vscode/
+.idea/
+
+# Coverage
 coverage/
 htmlcov/
 .coverage
