@@ -4,6 +4,13 @@ from pydantic import BaseModel
 import requests
 import json
 import os
+import base64
+import whisper
+import subprocess
+import uuid
+from deepface import DeepFace
+import cv2
+import numpy as np
 
 app = FastAPI(title="EcommerceAI AI Service", version="1.0.0")
 
@@ -121,10 +128,6 @@ Ejemplo de saludo: "¡Hola! Bienvenido a Importaciones UTP. Soy tu asistente vir
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error: {str(e)}")
 
-import whisper
-import subprocess
-import uuid
-
 # Load Whisper model (do this at startup)
 # Using "tiny" or "base" for speed on CPU, "small" is better but slower
 whisper_model = whisper.load_model("base")
@@ -183,12 +186,6 @@ async def voice_chat(
     except Exception as e:
         print(f"Voice chat error: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
-
-# Placeholder for Biometrics
-from deepface import DeepFace
-import base64
-import cv2
-import numpy as np
 
 class BiometricRequest(BaseModel):
     captured_image: str  # Base64 encoded image
