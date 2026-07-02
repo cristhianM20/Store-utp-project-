@@ -1,20 +1,24 @@
 ```
-# Docker-specific
+# Docker-specific ignores
+.dockerignore
 Dockerfile.*
 
-# Dependencies
-vendor/
-
-# Compiled/Generated
+# Build artifacts
+*.o
+*.obj
+*.a
 *.so
-*.dylib
 *.dll
 *.exe
 *.out
 
+# Dependencies
+vendor/
+
 # Logs and temp files
 *.log
 *.tmp
+*.swp
 
 # Environment
 .env
@@ -24,42 +28,4 @@ vendor/
 # Editors
 .vscode/
 .idea/
-*.swp
-*.swo
-
-# Build artifacts
-build/
-dist/
-target/
-
-# Python (if applicable)
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.Python
-env/
-venv/
-.venv/
-pip-log.txt
-pip-delete-this-directory.txt
-.tox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.log
-.git/modules/
-*.sublime-workspace
-
-# Go specific
-*.o
-*.a
-*.so
-*.exe
-*.test
-*.prof
-.DS_Store
 ```
