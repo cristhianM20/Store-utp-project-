@@ -31,50 +31,48 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-50">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+      <div className="loading">
+        <div className="loading-spinner"></div>
+        <p>Cargando productos...</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <div className="bg-gradient-to-r from-red-600 to-black text-white py-20 px-4">
-        <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">Bienvenido a Importaciones UTP</h1>
-          <p className="text-xl md:text-2xl mb-8 opacity-90">Tu tienda universitaria de confianza, ahora con IA.</p>
-          <Link href="/products" className="bg-white text-red-600 px-8 py-3 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors">
-            Ver Catálogo Completo
-          </Link>
-        </div>
+    <div className="container">
+      {/* Hero Banner */}
+      <div className="hero-banner">
+        <h2>🎉 Bienvenido a Importaciones UTP</h2>
+        <p>Tu tienda universitaria de confianza, ahora con Inteligencia Artificial.</p>
+        <Link href="/products" className="btn">Ver Catálogo Completo</Link>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-12 space-y-16">
+      <div className="section">
         {/* Offers Section */}
         {offers.length > 0 && (
-          <section>
-            <div className="flex items-center gap-2 mb-8">
-              <span className="text-3xl">🔥</span>
-              <h2 className="text-3xl font-bold text-gray-900">Ofertas Especiales</h2>
+          <div className="section">
+            <h2 className="section-title">🔥 Ofertas Especiales</h2>
+            <div className="products-grid">
+              <div className="product-row">
+                {offers.map((product) => (
+                  <ProductCard key={product.id} product={product} isOffer />
+                ))}
+              </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {offers.map((product) => (
-                <ProductCard key={product.id} product={product} isOffer />
-              ))}
-            </div>
-          </section>
+          </div>
         )}
 
         {/* Featured Products */}
-        <section>
-          <h2 className="text-3xl font-bold text-gray-900 mb-8">Productos Destacados</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+        <div className="section">
+          <h2 className="section-title">Productos Destacados</h2>
+          <div className="products-grid">
+            <div className="product-row">
+              {featuredProducts.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
           </div>
-        </section>
+        </div>
       </div>
 
       <ChatWidget context="El usuario está en la página de inicio de Importaciones UTP viendo ofertas y productos destacados." />
@@ -84,44 +82,30 @@ export default function Home() {
 
 function ProductCard({ product, isOffer = false }: { product: Product; isOffer?: boolean }) {
   return (
-    <Link href={`/products/${product.id}`} className="group">
-      <div className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden h-full flex flex-col relative border border-gray-100">
+    <div className="product-cell">
+      <Link href={`/products/${product.id}`} className="product-card">
         {isOffer && (
-          <div className="absolute top-3 right-3 bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold z-10 animate-pulse">
-            OFERTA
-          </div>
+          <div className="offer-badge">OFERTA</div>
         )}
-        <div className="relative h-48 w-full bg-gray-100 p-4">
+        <div className="product-image">
           <img
             src={product.imageUrl || 'https://via.placeholder.com/300'}
             alt={product.name}
-            className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
           />
         </div>
-        <div className="p-5 flex flex-col flex-1">
-          <div className="text-xs font-medium text-red-600 mb-1 uppercase tracking-wider">
-            {product.category}
-          </div>
-          <h3 className="font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-red-600 transition-colors">
-            {product.name}
-          </h3>
-          <div className="mt-auto pt-4 flex items-end justify-between">
-            <div className="flex flex-col">
-              {product.discountPrice ? (
-                <>
-                  <span className="text-xs text-gray-400 line-through">${product.price.toFixed(2)}</span>
-                  <span className="text-xl font-bold text-red-600">${product.discountPrice.toFixed(2)}</span>
-                </>
-              ) : (
-                <span className="text-xl font-bold text-gray-900">${product.price.toFixed(2)}</span>
-              )}
-            </div>
-            <button className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 group-hover:bg-red-600 group-hover:text-white transition-colors">
-              →
-            </button>
-          </div>
+        <div className="product-category">{product.category}</div>
+        <h3 className="product-name">{product.name}</h3>
+        <div className="product-price">
+          {product.discountPrice ? (
+            <>
+              <span className="product-price-old">${product.price.toFixed(2)}</span>
+              ${product.discountPrice.toFixed(2)}
+            </>
+          ) : (
+            <span>${product.price.toFixed(2)}</span>
+          )}
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 }
