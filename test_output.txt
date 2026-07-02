@@ -1,3 +1,0 @@
-Logging in...
-Login Response: {"error":"Authentication failed: Bad credentials"}
-Failed to get token
